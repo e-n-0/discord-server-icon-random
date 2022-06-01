@@ -17,19 +17,31 @@ client.once('ready', () => {
     
 });
 
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) return;
+
+	const { commandName } = interaction;
+
+	if (commandName === 'refresh') {
+        await executeChange();
+		await interaction.reply('Image changé!');
+	}
+});
+
+
 // Login to Discord with your client's token
 client.login(token);
 
-function executeChange() {
-    getMessagesOfChannel(channelImageId, maxImages).then(messages => {
-        const images = messages.filter(message => message.attachments.size > 0);
-        const imageUrls = images.map(image => image.attachments.first().url);
-        console.log(`Found ${imageUrls.length} image urls`);
+async function executeChange() {
+    const messages = await getMessagesOfChannel(channelImageId, maxImages);
 
-        const imageUrl = imageUrls[getRandom(0, imageUrls.length)];
-        console.log(imageUrl);
-        changeIcon(imageUrl);
-    });
+    const images = messages.filter(message => message.attachments.size > 0);
+    const imageUrls = images.map(image => image.attachments.first().url);
+    console.log(`Found ${imageUrls.length} image urls`);
+
+    const imageUrl = imageUrls[getRandom(0, imageUrls.length)];
+    console.log(imageUrl);
+    await changeIcon(imageUrl);
 }
 
 function getRandom(min, max) {  
@@ -43,7 +55,7 @@ function getMessagesOfChannel(channelId, amount = 100){
     return channel.messages.fetch({ limit: amount });
 }
 
-function changeIcon(url){
+async function changeIcon(url){
     let guild = client.guilds.cache.get(serverId);
-    guild.setIcon(url, ['Bot change icon']);
+    await guild.setIcon(url, ['Bot change icon']);
 }
