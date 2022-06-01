@@ -1,6 +1,6 @@
 # Change Discord Server Icon Randomly
 
-This bot will change your Discord server icon randomly from images uploaded in a Discord channel.
+Change your Discord server icon randomly from images uploaded in a Discord channel.
 
 ## Usage
 
