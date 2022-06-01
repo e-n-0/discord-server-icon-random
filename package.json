@@ -5,5 +5,8 @@
     "discord-api-types": "^0.33.1",
     "discord.js": "^13.7.0"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "^8.16.0"
+  }
 }
